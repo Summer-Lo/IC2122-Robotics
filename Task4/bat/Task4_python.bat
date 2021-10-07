@@ -1,3 +1,3 @@
-cd /D C:\Users\Administrator
-cd /D D:\01-Home\IoT\IC2122_Robot_Lab\Task4
+cd /D C:\Users
+cd /D D:\01-Home\IoT\IC2122-Robotics\Task4
 python Task4.py
