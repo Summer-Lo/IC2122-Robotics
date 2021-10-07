@@ -1,0 +1,55 @@
+Red Block:
+X: 	0.35
+Y: 	-0.45
+Z: 	0.435
+Alpha: 	77.7145
+Beta: 	73.0142
+Gamma:	101.4025
+
+Yellow Block:
+X: 	0.35
+Y: 	-0.3
+Z: 	0.435
+Alpha: 	65.0118
+Beta: 	86.8561
+Gamma:	115.0889
+
+GreenLake Block:
+X: 	0.35
+Y: 	-0.15
+Z: 	0.435
+Alpha: 	-6.4344
+Beta: 	88.6772
+Gamma:	-173.4556
+
+Blue Block:
+X: 	0.35
+Y: 	0
+Z: 	0.435
+Alpha: 	-6.4344
+Beta: 	88.6772
+Gamma:	-173.4556
+
+Green Block:
+X: 	0.35
+Y: 	0.15
+Z: 	0.435
+Alpha: 	-6.4344
+Beta: 	88.6772
+Gamma:	-173.4556
+
+White Block:
+X: 	0.35
+Y: 	0.3
+Z: 	0.435
+Alpha: 	90.3455
+Beta: 	83.1079
+Gamma:	89.5038
+
+Purple Block:
+X: 	-0.05
+Y: 	0.45
+Z: 	0.435
+Alpha: 	90.3455
+Beta: 	83.1079
+Gamma:	89.5038
