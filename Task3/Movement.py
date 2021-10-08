@@ -236,6 +236,24 @@ class Move:
         Gamma = float(input("Input Orientation Gamma (in degree): "))/RAD2DEG
         orientation = [float(Alpha),float(Beta),float(Gamma)]
         vrep.simxSetObjectOrientation(clientID, targetHandle0, -1, orientation, vrep.simx_opmode_blocking)
+    
+    def setTarget_withoutInput(self,PosX,PosY,PosZ,Alpha,Beta,Gamma):
+        clientID = self.clientID
+        RAD2DEG = self.RAD2DEG
+        targetHandle = self.targetHandle
+        position = [float(PosX),float(PosY),float(PosZ)]
+        orientation = [float(Alpha)/RAD2DEG,float(Beta)/RAD2DEG,float(Gamma)/RAD2DEG]
+        vrep.simxSetObjectPosition(clientID, targetHandle, -1, position, vrep.simx_opmode_blocking)                                 # Set the target position
+        vrep.simxSetObjectOrientation(clientID, targetHandle, -1, orientation, vrep.simx_opmode_blocking) 
+        
+    def setTarget0_withoutInput(self,PosX,PosY,PosZ,Alpha,Beta,Gamma):
+        clientID = self.clientID
+        RAD2DEG = self.RAD2DEG
+        targetHandle0 = self.targetHandle0
+        position = [float(PosX),float(PosY),float(PosZ)]
+        orientation = [float(Alpha)/RAD2DEG,float(Beta)/RAD2DEG,float(Gamma)/RAD2DEG]
+        vrep.simxSetObjectPosition(clientID, targetHandle0, -1, position, vrep.simx_opmode_blocking)                                 # Set the target position
+        vrep.simxSetObjectOrientation(clientID, targetHandle0, -1, orientation, vrep.simx_opmode_blocking) 
 
 '''
 #testing

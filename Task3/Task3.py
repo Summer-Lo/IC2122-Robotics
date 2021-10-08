@@ -22,6 +22,7 @@ import pygame_gui
 import numpy as np
 import Information
 import Movement
+import Checking
 import client_config as hc
 import vrep
 
@@ -222,6 +223,7 @@ def main():
     resolutionY = robot.resolutionY
     movement = Movement.Move()
     information = Information.data()
+    checking = Checking.Check()
     
     #angle = float(eval(input("please input velocity: ")))
     angle = 1
@@ -480,13 +482,20 @@ def main():
                 '''
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == pose1_button:
-                        movement.setJointAngle1(0,0,0,0,0,0)
+                        movement.setJointAngle1(-90,0,0,0,0,0)
                         #movement.setJointAngle1(-45.99,-51.94,53.75,-1.54,80.82,3.16)
-                        movement.setJointAngle0(-90,0,0,0,0,0)
+                        movement.setJointAngle0(90,0,0,0,0,0)
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == pose2_button:
-                        movement.setJointAngle1(90,0,0,0,0,0)
-                        movement.setJointAngle0(-90,0,0,0,0,0)
+                        movement.setTarget_withoutInput(0.35,0.3,0.435,0,90,180)
+                        checking.checking(0.07,0.6)
+                        time.sleep(2)
+                        movement.setTarget_withoutInput(-0.0048116,0.38861,1.1039,172.30,-88.070,80.779)
+                        time.sleep(2)
+                        movement.setTarget0_withoutInput(0.35,0.3,0.435,0,90,180)
+                        time.sleep(5)
+                        movement.setTarget0_withoutInput(0.31129,0.59525,1.1039,91.822,0.28286,-1.5211)
+                        time.sleep(2)
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == pose3_button:
                         movement.setJointAngle1(-45,14,84,-12,-90,-45)
