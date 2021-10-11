@@ -28,25 +28,13 @@ import vrep
 
 class UR3_RG2:
     # variates
-    resolutionX = 740               # Camera resolution: 640*480
-    resolutionY = 675
+    resolutionX = 640               # Camera resolution: 640*480
+    resolutionY = 900
     joint_angle = [0,0,0,0,0,0]     # each angle of joint
     RAD2DEG = 180 / math.pi         # transform radian to degrees
     posOnPath=0
     v = 0.3                         # velocity
 
-    # Handles information
-    #jointNum = 6
-    #baseName = 'UR3'
-    #rgName = 'RG2'
-    #jointName = 'UR3_joint'
-    #camera_rgb_Name = 'kinect_rgb'
-    #camera_depth_Name = 'kinect_depth'
-    #tipName = 'tip'
-    #targetName = 'target'
-    #pathName = 'Path'
-    #visionSensorName = 'Vision_sensor'
-    #camName = 'cam'
 
     # communication and read the handles
     def __init__(self):
@@ -74,15 +62,6 @@ class UR3_RG2:
         self.pathHandle = hc.pathHandle
         self.visionSensorHandle = hc.visionSensorHandle
         self.camHandle = hc.camHandle
-        # UR3 (Right)
-        self.rgName0 = hc.rgName0
-        # UR3 (Right)
-        self.jointHandle0 = hc.jointHandle0
-        self.baseHandle0 = hc.baseHandle0
-        self.rgHandle0 = hc.rgHandle0
-        self.jointConfig0 = hc.jointConfig0
-        self.tipHandle0 = hc.tipHandle0
-        self.targetHandle0 = hc.targetHandle0
 
     # disconnect
     def __del__(self):
@@ -136,19 +115,6 @@ class UR3_RG2:
         clientID = self.clientID
         res, retInts, retFloats, retStrings, retBuffer = vrep.simxCallScriptFunction(clientID, rgName,\
                                                         vrep.sim_scripttype_childscript,'rg2Close',[],[],[],b'',vrep.simx_opmode_blocking)
-    
-    def openRG20(self):
-        rgName0 = self.rgName0
-        clientID = self.clientID
-        res, retInts, retFloats, retStrings, retBuffer = vrep.simxCallScriptFunction(clientID, rgName0,\
-                                                        vrep.sim_scripttype_childscript,'rg2Open',[],[],[],b'',vrep.simx_opmode_blocking)
-        
-    # close rg2
-    def closeRG20(self):
-        rgName0 = self.rgName0
-        clientID = self.clientID
-        res, retInts, retFloats, retStrings, retBuffer = vrep.simxCallScriptFunction(clientID, rgName0,\
-                                                        vrep.sim_scripttype_childscript,'rg2Close',[],[],[],b'',vrep.simx_opmode_blocking)
         
 
     def StopSimulation(self):
@@ -181,38 +147,16 @@ class UR3_RG2:
         jointConfig[num] = jointConfig[num] - angle
         
         self.jointConfig = jointConfig
+    
     # Return to the original pose for further testing
     def returnPose(self):
         clientID = self.clientID
         RAD2DEG = self.RAD2DEG
-        clientID = self.clientID
-        RAD2DEG = self.RAD2DEG
-        jointHandle = self.jointHandle
-        jointConfig = hc.jointConfig
-        for i in range(6):
-            vrep.simxSetJointTargetPosition(clientID, jointHandle[i], 0, vrep.simx_opmode_oneshot)
-            jointConfig[i] = 0
-        hc.jointConfig = jointConfig
-        #targetHandle = self.targetHandle
-        #pos = [-4.7965e-03,3.8874e-01,1.1039e+00]
-        #ori = [2.8907888401,-1.5369718459,1.4156714629]
-        #vrep.simxSetObjectPosition(clientID, targetHandle, -1, pos, vrep.simx_opmode_blocking)
-        #vrep.simxSetObjectOrientation(clientID, targetHandle, -1, ori, vrep.simx_opmode_blocking)
-
-    def returnPose0(self):
-        clientID = self.clientID
-        RAD2DEG = self.RAD2DEG
-        #targetHandle0 = self.targetHandle0
-        jointHandle0 = self.jointHandle0
-        jointConfig0 = hc.jointConfig0
-        for i in range(6):
-            vrep.simxSetJointTargetPosition(clientID, jointHandle0[i], 0, vrep.simx_opmode_oneshot)
-            jointConfig0[i] = 0
-        hc.jointConfig0 = jointConfig0
-        #pos = [6.9520e-01,3.8874e-01,1.1039e+00]
-        #ori = [2.8714156854,-1.5384902823,1.3964030279]
-        #vrep.simxSetObjectPosition(clientID, targetHandle0, -1, pos, vrep.simx_opmode_blocking)
-        #vrep.simxSetObjectOrientation(clientID, targetHandle0, -1, ori, vrep.simx_opmode_blocking)
+        targetHandle = self.targetHandle
+        pos = [-3.8843e-01,-9.8524e-04,+1.1037e+00]
+        ori = [0.0058625609574,-0.0041306707407,0.00022043508453]
+        vrep.simxSetObjectPosition(clientID, targetHandle, -1, pos, vrep.simx_opmode_blocking)
+        vrep.simxSetObjectOrientation(clientID, targetHandle, -1, ori, vrep.simx_opmode_blocking)
 
 
 
@@ -238,31 +182,67 @@ def main():
     green = (0, 255, 0)
     blue = (0, 0, 128)
     black = (0, 0, 0)
-    manager = pygame_gui.UIManager((800, 880))
+    manager = pygame_gui.UIManager((800, 930))
     # Introd
-    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((120, 25), (185, 45)),text='UR3 (Left)',manager=manager)
-    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((470, 25), (185, 45)),text='UR3 (Right)',manager=manager)
-
+    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 25), (185, 45)),text='Adjusting Joint Angle',manager=manager)
+    Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 25), (45, 45)),text='+5',manager=manager)
+    Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 25), (45, 45)),text='-5',manager=manager)
+    Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 25), (45, 45)),text='+1',manager=manager)
+    Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 25), (45, 45)),text='-1',manager=manager)
+    Status_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((450, 25), (100, 45)),text='Disabled',manager=manager)
+    # Joint 1 button
+    joint1Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 75), (45, 45)),text='>>',manager=manager)
+    joint1Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 75), (45, 45)),text='<<',manager=manager)
+    joint1Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 75), (45, 45)),text='> (Q)',manager=manager)
+    joint1Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 75), (45, 45)),text='(W) <',manager=manager)
+    # Joint 2 button
+    joint2Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 125), (45, 45)),text='>>',manager=manager)
+    joint2Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 125), (45, 45)),text='<<',manager=manager)
+    joint2Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 125), (45, 45)),text='> (A)',manager=manager)
+    joint2Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 125), (45, 45)),text='(S) <',manager=manager)
+    # Joint 3 button
+    joint3Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 175), (45, 45)),text='>>',manager=manager)
+    joint3Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 175), (45, 45)),text='<<',manager=manager)
+    joint3Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 175), (45, 45)),text='> (Z)',manager=manager)
+    joint3Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 175), (45, 45)),text='(X) <',manager=manager)
+    # Joint 4 button
+    joint4Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 225), (45, 45)),text='>>',manager=manager)
+    joint4Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 225), (45, 45)),text='<<',manager=manager)
+    joint4Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 225), (45, 45)),text='> (E)',manager=manager)
+    joint4Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 225), (45, 45)),text='(R) <',manager=manager)
+    # Joint 5 button
+    joint5Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 275), (45, 45)),text='>>',manager=manager)
+    joint5Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 275), (45, 45)),text='<<',manager=manager)
+    joint5Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (45, 45)),text='> (D)',manager=manager)
+    joint5Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 275), (45, 45)),text='(F) <',manager=manager)
+    # Joint 6 Button
+    joint6Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 325), (45, 45)),text='>>',manager=manager)
+    joint6Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 325), (45, 45)),text='<<',manager=manager)
+    joint6Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 325), (45, 45)),text='> (C)',manager=manager)
+    joint6Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 325), (45, 45)),text='(V) <',manager=manager)
     # Pose
-    returnPose_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((10, 375), (115, 45)),text='Home Position',manager=manager)
-    openRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((135, 375), (100, 45)),text='Open RG2',manager=manager)
-    closeRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((245, 375), (100, 45)),text='Close RG2',manager=manager) 
-    returnPose0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((380, 375), (115, 45)),text='Home Position',manager=manager)
-    openRG20_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((505, 375), (100, 45)),text='Open RG2',manager=manager)
-    closeRG20_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((615, 375), (100, 45)),text='Close RG2',manager=manager) 
+    returnPose_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((75, 375), (150, 45)),text='Home Position (L)',manager=manager)
+    openRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 375), (150, 45)),text='Open RG2 (Y)',manager=manager)
+    closeRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((425, 375), (150, 45)),text='Close RG2 (T)',manager=manager) 
     # Set Position and Orientaiton
-    setTarget_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((100, 575), (150, 45)),text='Set Target',manager=manager) 
-    setPosition_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 575), (150, 45)),text='Set Position',manager=manager) 
-    setOrientation_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 575), (150, 45)),text='Set Orientation',manager=manager)
-    '''
-    setTarget0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((100, 775), (150, 45)),text='Set Target',manager=manager) 
-    setPosition0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 775), (150, 45)),text='Set Position',manager=manager) 
-    setOrientation0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 775), (150, 45)),text='Set Orientation',manager=manager)
-    '''
-    # Calucation Pose
-    pose1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((100, 625), (150, 45)),text='Pose 1',manager=manager)
-    pose2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 625), (150, 45)),text='Pose 2',manager=manager)
-    pose3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 625), (150, 45)),text='Pose 3',manager=manager)
+    setTarget_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((75, 575), (150, 45)),text='Set Target (I)',manager=manager) 
+    setPosition_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 575), (150, 45)),text='Set Position (P)',manager=manager) 
+    setOrientation_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((425, 575), (160, 45)),text='Set Orientation (O)',manager=manager)
+    # Step for pick and place
+    step1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 675), (60, 45)),text='Step1',manager=manager)
+    step2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((140, 675), (60, 45)),text='Step2',manager=manager)
+    step3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((240, 675), (60, 45)),text='Step3',manager=manager)
+    step4_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((340, 675), (60, 45)),text='Step4',manager=manager)
+    step5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((440, 675), (60, 45)),text='Step5',manager=manager)
+    step6_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((540, 675), (60, 45)),text='Step6',manager=manager)
+    step7_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 725), (60, 45)),text='Step7',manager=manager)
+    step8_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((140, 725), (60, 45)),text='Step8',manager=manager)
+    step9_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((240, 725), (60, 45)),text='Step9',manager=manager)
+    step10_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((340, 725), (60, 45)),text='Step10',manager=manager)
+    step11_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((440, 725), (60, 45)),text='Step11',manager=manager)
+    step12_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((540, 725), (60, 45)),text='Step12',manager=manager) 
+    # One Step for completing whole task
+    complete_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((70, 825), (500, 45)),text='Clicking this button for completing whole task automatically',manager=manager)
 
     clock = pygame.time.Clock()
     is_running = True
@@ -285,13 +265,10 @@ def main():
     
     while True:
         # screen.fill((255,255,255))
-        #ur30_angle = information.getJointPositionRadius()
         time_delta = clock.tick(60)/1000.0
         jointAngle = [0,0,0,0,0,0]
         jointAngle = information.getJointPositionDegree()
-        targetinfo = information.getTargetInfomation()
-        jointAngle0 = information.getJoint0PositionDegree()
-        targetinfo0 = information.getTarget0Infomation()
+        targetinfo = information.getTipInfomation()
         pygame.display.update()
         font = pygame.font.Font('freesansbold.ttf', 20)
         X = 500
@@ -301,7 +278,7 @@ def main():
         #pygame.draw.rect(screen, white, pygame.Rect(475,75,525,425))
         pygame.display.flip()
         for i in range(6):
-            textClear = font.render('                     ', True, black, white)
+            textClear = font.render('              ', True, black, white)
             if (jointAngle[i] >= 0 and jointAngle[i] != -0.0):
                 text = font.render('+' + str(jointAngle[i]), True, blue, white)
             else:
@@ -312,18 +289,18 @@ def main():
             textRect = text.get_rect()
             textRectTitle = textTitle.get_rect()
             textRectDegree = textDegree.get_rect()
-            textRectClear.center = (225, Y + (i * 50))
-            textRect.center = (250, Y + (i * 50))
+            textRectClear.center = (X, Y + (i * 50))
+            textRect.center = (X, Y + (i * 50))
             textRectTitle.center = (X-375, Y + (i * 50))
-            textRectDegree.center = (325, Y + (i * 50))
+            textRectDegree.center = (X+75, Y + (i * 50))
             screen.blit(textClear, textRectClear)
             screen.blit(text, textRect)
             screen.blit(textTitle, textRectTitle)
             screen.blit(textDegree, textRectDegree)
             # Target Information Title
-            textInfoTopic = font.render('---UR3 (Left) End-Effector (Tip) Position (Base) and Orientation---', True, blue, white)
+            textInfoTopic = font.render('------End-Effector (Tip) Position and Orientation------', True, blue, white)
             textRectInfoTopic = textInfoTopic.get_rect()
-            textRectInfoTopic.center = (365, 450 )
+            textRectInfoTopic.center = (310, 450 )
             screen.blit(textInfoTopic, textRectInfoTopic)
             textInfoTitle = font.render(str(infoTitle[i]), True, black, white)
             textRectInfoTitle = textInfoTitle.get_rect()
@@ -361,73 +338,17 @@ def main():
             elif (i == 5):
                 textRectInfo.center = (X+75, 550 )
             screen.blit(textInfo, textRectInfo)
-        # UR3#0
         
-        for i in range(6):
-            X = 850
-            textClear = font.render('                     ', True, black, white)
-            if (jointAngle0[i] >= 0 and jointAngle0[i] != -0.0):
-                text = font.render('+' + str(jointAngle0[i]), True, blue, white)
-            else:
-                text = font.render(str(jointAngle0[i]), True, blue, white)
-            textTitle = font.render(str(jointTitle[i]), True, black, white)
-            textDegree = font.render('deg', True, black, white)
-            textRectClear = textClear.get_rect()
-            textRect = text.get_rect()
-            textRectTitle = textTitle.get_rect()
-            textRectDegree = textDegree.get_rect()
-            textRectClear.center = (575, Y + (i * 50))
-            textRect.center = (600, Y + (i * 50))
-            textRectTitle.center = (X-375, Y + (i * 50))
-            textRectDegree.center = (675, Y + (i * 50))
-            screen.blit(textClear, textRectClear)
-            screen.blit(text, textRect)
-            screen.blit(textTitle, textRectTitle)
-            screen.blit(textDegree, textRectDegree)
-            X = 500
-            '''
-            # Target Information Title
-            textInfoTopic = font.render('---UR3 (Right) End-Effector (Tip) Position (World) and Orientation---', True, blue, white)
-            textRectInfoTopic = textInfoTopic.get_rect()
-            textRectInfoTopic.center = (365, 650 )
-            screen.blit(textInfoTopic, textRectInfoTopic)
-            textInfoTitle = font.render(str(infoTitle[i]), True, black, white)
-            textRectInfoTitle = textInfoTitle.get_rect()
-            if (i <= 2):
-                textRectInfoTitle.center = (X-400 +(i*200), 700 )
-            else:
-                textRectInfoTitle.center = (X-400 +((i-3)*187), 750 )
-            screen.blit(textInfoTitle, textRectInfoTitle)
-            
-            # Target Information Clear
-            textInfoClear = font.render('                 ', True, black, white)
-            textRectInfoClear = textInfoClear.get_rect()
-            if (i <= 2):
-                textRectInfoClear.center = (X-330 +(i*200), 700 )
-            elif (i == 3):
-                textRectInfoClear.center = (X-320, 750 )
-            elif (i == 4):
-                textRectInfoClear.center = (X-140, 750 )
-            elif (i == 5):
-                textRectInfoClear.center = (X+75, 750 )
-            screen.blit(textInfoClear, textRectInfoClear)
-            
-            # Target Information
-            if (i <= 2):
-                textInfo = font.render(str(targetinfo0[i])+' m', True, black, white)
-            else:
-                textInfo = font.render(str(targetinfo0[i]), True, black, white)
-            textRectInfo = textInfo.get_rect()
-            if (i <= 2):
-                textRectInfo.center = (X-330 +(i*200), 700 )
-            elif (i == 3):
-                textRectInfo.center = (X-320, 750 )
-            elif (i == 4):
-                textRectInfo.center = (X-140, 750 )
-            elif (i == 5):
-                textRectInfo.center = (X+75, 750 )
-            screen.blit(textInfo, textRectInfo)
-            '''
+        font = pygame.font.Font('freesansbold.ttf', 15)
+        textStep = font.render('-------Modifying the program for completing this task by clicking buttons--------', True, blue, white)
+        textRectStep = textInfoTopic.get_rect()
+        textRectStep.center = (300, 650 )
+        screen.blit(textStep, textRectStep)
+
+        textStep = font.render('-------Modifying the program for completing this task by clicking one button--------', True, blue, white)
+        textRectStep = textInfoTopic.get_rect()
+        textRectStep.center = (280, 800 )
+        screen.blit(textStep, textRectStep)
             
             
         pygame.display.update()
@@ -441,6 +362,83 @@ def main():
             # click button
             if event.type == pygame.USEREVENT:
                 # Joint 1
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint1Add5_button:
+                        robot.rotateCertainAnglePositive(0,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint1Sub5_button:
+                        robot.rotateCertainAngleNegative(0,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint1Add_button:
+                        robot.rotateCertainAnglePositive(0,1)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint1Sub_button:
+                        robot.rotateCertainAngleNegative(0,1)
+                # Joint 2
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint2Add5_button:
+                        robot.rotateCertainAnglePositive(1,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint2Sub5_button:
+                        robot.rotateCertainAngleNegative(1,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint2Add_button:
+                        robot.rotateCertainAnglePositive(1,1)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint2Sub_button:
+                        robot.rotateCertainAngleNegative(1,1)
+                # Joint 3
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint3Add5_button:
+                        robot.rotateCertainAnglePositive(2,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint3Sub5_button:
+                        robot.rotateCertainAngleNegative(2,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint3Add_button:
+                        robot.rotateCertainAnglePositive(2,1)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint3Sub_button:
+                        robot.rotateCertainAngleNegative(2,1)
+                # Joint 4
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint4Add5_button:
+                        robot.rotateCertainAnglePositive(3,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint4Sub5_button:
+                        robot.rotateCertainAngleNegative(3,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint4Add_button:
+                        robot.rotateCertainAnglePositive(3,1)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint4Sub_button:
+                        robot.rotateCertainAngleNegative(3,1)
+                # Joint 5
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint5Add5_button:
+                        robot.rotateCertainAnglePositive(4,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint5Sub5_button:
+                        robot.rotateCertainAngleNegative(4,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint5Add_button:
+                        robot.rotateCertainAnglePositive(4,1)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint5Sub_button:
+                        robot.rotateCertainAngleNegative(4,1)
+                # Joint 6
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint6Add5_button:
+                        robot.rotateCertainAnglePositive(5,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint6Sub5_button:
+                        robot.rotateCertainAngleNegative(5,5)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint6Add_button:
+                        robot.rotateCertainAnglePositive(5,1)
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == joint6Sub_button:
+                        robot.rotateCertainAngleNegative(5,1)
                 # Pose
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == returnPose_button:
@@ -460,47 +458,65 @@ def main():
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == setOrientation_button:
                         movement.setTargetOrientation()
+
+                # Please input the action at the below area. You can find some functions at below files: Task4.py, Movement.py, Information.py
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == returnPose0_button:
-                        robot.returnPose0()
+                    if event.ui_element == step1_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 1")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == openRG20_button:
-                        robot.openRG20()
+                    if event.ui_element == step2_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 2")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == closeRG20_button:
-                        robot.closeRG20()
-                '''
+                    if event.ui_element == step3_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 3")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == setTarget0_button:
-                        movement.setTarget0()
+                    if event.ui_element == step4_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 4")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == setPosition0_button:
-                        movement.setTargetPosition0()
+                    if event.ui_element == step5_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 5")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == setOrientation0_button:
-                        movement.setTargetOrientation0()
-                '''
+                    if event.ui_element == step6_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 6")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == pose1_button:
-                        movement.setJointAngle1(-90,0,0,0,0,0)
-                        #movement.setJointAngle1(-45.99,-51.94,53.75,-1.54,80.82,3.16)
-                        movement.setJointAngle0(90,0,0,0,0,0)
+                    if event.ui_element == step7_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 7")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == pose2_button:
-                        movement.setTarget_withoutInput(0.35,0.3,0.435,0,90,180)
-                        checking.checking(0.07,0.6)
-                        time.sleep(2)
-                        movement.setTarget_withoutInput(-0.0048116,0.38861,1.1039,172.30,-88.070,80.779)
-                        time.sleep(2)
-                        movement.setTarget0_withoutInput(0.35,0.3,0.435,0,90,180)
-                        time.sleep(5)
-                        movement.setTarget0_withoutInput(0.31129,0.59525,1.1039,91.822,0.28286,-1.5211)
-                        time.sleep(2)
+                    if event.ui_element == step8_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 8")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == pose3_button:
-                        movement.setJointAngle1(-45,14,84,-12,-90,-45)
-                        movement.setJointAngle0(135,14,84,-12,-90,-45)
-                     
+                    if event.ui_element == step9_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 9")
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == step10_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 10")
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == step11_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 11")
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == step12_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Step 12")
+
+                # Please input the necessary command for completing this task by clicking one button
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == complete_button:
+                        # Please input your command (functions can be found at Task4.py, Movement.py, Information.py )
+                        print("Working........")
+
+                        
+                        
 
             manager.process_events(event)
             if event.type == pygame.KEYDOWN:

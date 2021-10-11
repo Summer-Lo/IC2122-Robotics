@@ -15,6 +15,11 @@ pathName = 'Path'
 visionSensorName = 'Vision_sensor'
 camName = 'cam'
 boxSensorName = 'boxSensor'
+baseName0 = 'UR3#0'
+rgName0 = 'RG2#0'
+jointName0 = 'UR3_0joint'
+tipName0 = 'tip#0'
+targetName0 = 'target#0'
 #joint1Name = "UR3_joint1"
 #joint2Name = "UR3_joint2"
 #joint3Name = "UR3_joint3"
@@ -61,6 +66,11 @@ for i in range(jointNum):
     _, returnHandle = vrep.simxGetObjectHandle(clientID, jointName + str(i+1), vrep.simx_opmode_blocking)
     jointHandle[i] = returnHandle
 
+jointHandle0 = [0,0,0,0,0,0]
+for i in range(jointNum):
+    _, returnHandle = vrep.simxGetObjectHandle(clientID, jointName0 + str(i+1), vrep.simx_opmode_blocking)
+    jointHandle0[i] = returnHandle
+
 #initization
 _, baseHandle = vrep.simxGetObjectHandle(clientID, baseName, vrep.simx_opmode_blocking)
 _, rgHandle = vrep.simxGetObjectHandle(clientID, rgName, vrep.simx_opmode_blocking)
@@ -79,8 +89,16 @@ _, boxSensorHandle = vrep.simxGetObjectHandle(clientID,boxSensorName,vrep.simx_o
 #_, joint5Handle = vrep.simxGetObjectHandle(clientID,joint5Name,vrep.simx_opmode_oneshot_wait)
 _, joint6Handle = vrep.simxGetObjectHandle(clientID,joint6Name,vrep.simx_opmode_oneshot_wait)
 
+_, baseHandle0 = vrep.simxGetObjectHandle(clientID, baseName0, vrep.simx_opmode_blocking)
+_, rgHandle0 = vrep.simxGetObjectHandle(clientID, rgName0, vrep.simx_opmode_blocking)
+_, tipHandle0 = vrep.simxGetObjectHandle(clientID, tipName0, vrep.simx_opmode_blocking)
+_, targetHandle0 = vrep.simxGetObjectHandle(clientID, targetName0, vrep.simx_opmode_blocking)
 # read the angle of each joints
 jointConfig = np.zeros((jointNum, 1))
 for i in range(jointNum):
         _, jpos = vrep.simxGetJointPosition(clientID, jointHandle[i], vrep.simx_opmode_blocking)
         jointConfig[i] = jpos
+jointConfig0 = np.zeros((jointNum, 1))
+for i in range(jointNum):
+        _, jpos = vrep.simxGetJointPosition(clientID, jointHandle0[i], vrep.simx_opmode_blocking)
+        jointConfig0[i] = jpos
