@@ -184,7 +184,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((resolutionX, resolutionY))
     screen.fill((255,255,255))
-    pygame.display.set_caption("VREP Joint Angle Control Panel")
+    pygame.display.set_caption("VREP Control Panel")
     # looping, can resume moving with pressing one key
     pygame.key.set_repeat(200,50)
     white = (255, 255, 255)

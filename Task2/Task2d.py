@@ -145,7 +145,7 @@ class UR3_RG2:
         vrep.simxSetJointTargetPosition(clientID, jointHandle[num], (jointConfig[num]+angle)/RAD2DEG, vrep.simx_opmode_oneshot)
         jointConfig[num] = jointConfig[num] + angle
         
-        self.jointConfig = jointConfig
+        hc.jointConfig = jointConfig
         
     # Rotate the ?th joint with ? angle (anti-clockwise)
     def rotateCertainAngleNegative(self, num, angle):
@@ -157,7 +157,7 @@ class UR3_RG2:
         vrep.simxSetJointTargetPosition(clientID, jointHandle[num], (jointConfig[num]-angle)/RAD2DEG, vrep.simx_opmode_oneshot)
         jointConfig[num] = jointConfig[num] - angle
         
-        self.jointConfig = jointConfig
+        hc.jointConfig = jointConfig
     # Return to the original pose for further testing
     def returnPose(self):
         clientID = self.clientID
@@ -177,7 +177,7 @@ class UR3_RG2:
         jointAngle = [float(joint1),float(joint2),float(joint3),float(joint4),float(joint5),float(joint6)]
         for i in range(6):
             vrep.simxSetJointTargetPosition(clientID, jointHandle[i], jointAngle[i]/RAD2DEG, vrep.simx_opmode_oneshot)
-            jointConfig[i] = 0
+            jointConfig[i] = jointAngle[i]
         hc.jointConfig = jointConfig
 
 
@@ -210,7 +210,7 @@ def main():
     Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 25), (45, 45)),text='-5',manager=manager)
     Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 25), (45, 45)),text='+1',manager=manager)
     Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 25), (45, 45)),text='-1',manager=manager)
-    Status_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((450, 25), (100, 45)),text='Disabled',manager=manager)
+    #Status_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((450, 25), (100, 45)),text='Disabled',manager=manager)
     # Joint 1 button
     joint1Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 75), (45, 45)),text='>>',manager=manager)
     joint1Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 75), (45, 45)),text='<<',manager=manager)
@@ -448,6 +448,7 @@ def main():
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == returnPose_button:
                         robot.returnPose()
+                        movement.SetTarget(-0.38804, -0.0020044, 1.1040, 0.004456698245, -0.003100402883, 2.0050342447e-5)
                 # RG2
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == openRG2_button:
@@ -468,13 +469,16 @@ def main():
                 # Solution
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == solution1_button:
-                        robot.jointPose(112.96,-56.81,-29.26,-183.56,-89.9,-157.15)
+                        robot.jointPose(46.36,-45.43,0.14,+154.38,-78.5,133.53)
+                        movement.SetTarget(0.125,-0.35,0.6,0,1.5708,-3.14159)
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == solution2_button:
-                        robot.jointPose(-104.71,105.68,-102.1,86.76,-89.88,-14.68)
+                        robot.jointPose(35.64,-15.5,-54.48,-18.07,92.22,-53.14)
+                        movement.SetTarget(0.125,-0.35,0.6,0,1.5708,-3.14159)
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == solution3_button:
-                        robot.jointPose(-104.67,12.91,102.38,-24.85,-89.93,-14.64)
+                        robot.jointPose(35.65,-27.5,-50.47,-21.05,92.22,-53.14)
+                        movement.SetTarget(0.125,-0.35,0.6,0,1.5708,-3.14159)
                         
                      
 
