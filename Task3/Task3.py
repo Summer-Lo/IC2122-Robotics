@@ -463,136 +463,59 @@ def main():
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step1_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTargetPosition_withoutInput(-0.2,0,1.1)
                         print("Step 1")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step2_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTargetPosition_withoutInput(-0.1,0,1.1)
                         print("Step 2")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step3_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(0.125,-0.35,0.8,0,90,-180)
                         print("Step 3")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step4_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(0.125,-0.35,0.435,0,90,-180)
                         print("Step 4")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step5_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        robot.closeRG2()
                         print("Step 5")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step6_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(0,0,1.1,90,0,0)
                         print("Step 6")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step7_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(-0.575,0,0.9,90,0,0)
                         print("Step 7")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step8_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        robot.openRG2()
                         print("Step 8")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step9_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        robot.returnPose()
                         print("Step 9")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step10_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(-0.425,0,0.9,90,0,0)
                         print("Step 10")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step11_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(-0.575,0,0.9,90,0,0)
                         print("Step 11")
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == step12_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        movement.setTarget_withoutInput(-0.575,0,0.846,90,0,0)
                         print("Step 12")
-                        '''
-                        robot.closeRG2()
-                        robot.returnPose()
-                        movement.setTargetPosition_withoutInput(-0.2,0,1.1)
-                        movement.setTargetPosition_withoutInput(-0.1,0,1.1)
-                        movement.setTarget_withoutInput(0.125,-0.35,0.8,0,90,-180)
-                        movement.setTarget_withoutInput(0.125,-0.35,0.45,0,90,-180)
-                        robot.openRG2()
-                        '''
+
 
                 # Please input the necessary command for completing this task by clicking one button
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == complete_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
                         print("Working........")
-                        movement.setTargetPosition_withoutInput(-0.2,0,1.1)
-                        checking.checking(0.07,0.6)
-                        movement.setTargetPosition_withoutInput(-0.1,0,1.1)
-                        checking.checking(0.07,0.07)
-                        movement.setTarget_withoutInput(0.125,-0.35,0.8,0,90,-180)
-                        checking.checking(0.07,0.6)
-                        movement.setTarget_withoutInput(0.125,-0.35,0.435,0,90,-180)
-                        checking.checking(0.07,0.06)
-                        robot.closeRG2()
-                        time.sleep(2)
-                        checking.checking(0.07,0.6)
-                        movement.setTarget_withoutInput(0,0,1.1,90,0,0)
-                        checking.checking(0.07,0.6)
-                        movement.setTarget_withoutInput(-0.375,0,0.9,90,0,0)
-                        checking.checking(0.07,0.17)
-                        movement.setTarget_withoutInput(-0.575,0,0.9,90,0,0)
-                        checking.checking(0.07,0.06)
-                        time.sleep(2)
-                        robot.openRG2()
-                        time.sleep(1)
-                        checking.checking(0.07,0.6)
-                        robot.returnPose()
-                        checking.checking(0.07,0.6)
-                        time.sleep(3)
-                        movement.setTarget_withoutInput(-0.425,0,0.9,90,0,0)
-                        checking.checking(0.07,0.06)
-                        time.sleep(1)
-                        movement.setTarget_withoutInput(-0.575,0,0.9,90,0,0)
-                        checking.checking(0.07,0.06)
-                        time.sleep(1)
-                        movement.setTarget_withoutInput(-0.575,0,0.846,90,0,0)
-                        checking.checking(0.07,0.06)
-                        time.sleep(1)
-                        robot.closeRG2()
-                        time.sleep(3)
-                        robot.returnPose()
-                        checking.checking(0.07,0.06)
-                        time.sleep(1)
-                        movement.setTargetPosition_withoutInput(-0.2,0,1.1)
-                        checking.checking(0.07,0.6)
-                        time.sleep(1)
-                        movement.setTargetPosition_withoutInput(-0.1,0,1.1)
-                        checking.checking(0.07,0.06)
-                        time.sleep(1)
-                        movement.setTargetPosition_withoutInput(0.1,0,1.1)
-                        checking.checking(0.07,0.6)
-                        time.sleep(1)
-                        movement.setTarget_withoutInput(0.125,-0.35,0.8,0,90,-180)
-                        time.sleep(4)
-                        movement.setTarget_withoutInput(0.125,-0.35,0.45,0,90,-180)
-                        checking.checking(0.07,0.06)
-                        time.sleep(1)
-                        robot.openRG2()
-                        time.sleep(3)
-                        movement.setTarget_withoutInput(0.1,0,1.1,90,0,0)
-                        checking.checking(0.07,0.6)
-                        time.sleep(1)
-                        robot.returnPose()
+
 
             manager.process_events(event)
             if event.type == pygame.KEYDOWN:
