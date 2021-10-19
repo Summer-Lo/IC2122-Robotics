@@ -29,7 +29,7 @@ import vrep
 class UR3_RG2:
     # variates
     resolutionX = 640               # Camera resolution: 640*480
-    resolutionY = 900
+    resolutionY = 750
     joint_angle = [0,0,0,0,0,0]     # each angle of joint
     RAD2DEG = 180 / math.pi         # transform radian to degrees
     posOnPath=0
@@ -228,21 +228,8 @@ def main():
     setTarget_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((75, 575), (150, 45)),text='Set Target (I)',manager=manager) 
     setPosition_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 575), (150, 45)),text='Set Position (P)',manager=manager) 
     setOrientation_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((425, 575), (160, 45)),text='Set Orientation (O)',manager=manager)
-    # Step for pick and place
-    step1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 675), (60, 45)),text='Step1',manager=manager)
-    step2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((140, 675), (60, 45)),text='Step2',manager=manager)
-    step3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((240, 675), (60, 45)),text='Step3',manager=manager)
-    step4_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((340, 675), (60, 45)),text='Step4',manager=manager)
-    step5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((440, 675), (60, 45)),text='Step5',manager=manager)
-    step6_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((540, 675), (60, 45)),text='Step6',manager=manager)
-    step7_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 725), (60, 45)),text='Step7',manager=manager)
-    step8_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((140, 725), (60, 45)),text='Step8',manager=manager)
-    step9_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((240, 725), (60, 45)),text='Step9',manager=manager)
-    step10_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((340, 725), (60, 45)),text='Step10',manager=manager)
-    step11_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((440, 725), (60, 45)),text='Step11',manager=manager)
-    step12_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((540, 725), (60, 45)),text='Step12',manager=manager) 
     # One Step for completing whole task
-    complete_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((70, 825), (500, 45)),text='Clicking this button for completing whole task automatically',manager=manager)
+    complete_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((70, 675), (500, 45)),text='Clicking this button for completing whole task automatically',manager=manager)
 
     clock = pygame.time.Clock()
     is_running = True
@@ -340,14 +327,10 @@ def main():
             screen.blit(textInfo, textRectInfo)
         
         font = pygame.font.Font('freesansbold.ttf', 15)
-        textStep = font.render('-------Modifying the program for completing this task by clicking buttons--------', True, blue, white)
-        textRectStep = textInfoTopic.get_rect()
-        textRectStep.center = (300, 650 )
-        screen.blit(textStep, textRectStep)
 
         textStep = font.render('-------Modifying the program for completing this task by clicking one button--------', True, blue, white)
         textRectStep = textInfoTopic.get_rect()
-        textRectStep.center = (280, 800 )
+        textRectStep.center = (280, 650 )
         screen.blit(textStep, textRectStep)
             
             
@@ -458,57 +441,6 @@ def main():
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == setOrientation_button:
                         movement.setTargetOrientation()
-
-                # Please input the action at the below area. You can find some functions at below files: Task3.py, Movement.py, Information.py
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step1_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 1")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step2_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 2")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step3_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 3")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step4_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 4")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step5_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 5")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step6_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 6")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step7_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 7")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step8_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 8")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step9_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 9")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step10_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 10")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step11_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 11")
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == step12_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
-                        print("Step 12")
-
 
                 # Please input the necessary command for completing this task by clicking one button
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
