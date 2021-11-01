@@ -443,9 +443,16 @@ def main():
                         movement.setTargetOrientation()
 
                 # Please input the necessary command for completing this task by clicking one button
+                # You can review the comments for seeking the useful functions which are located at other files 
+                # (Movement.py, Information.py, Checking.py)
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == complete_button:
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
+                        # -----Example start-----
+                        #movement.setTargetPosition_withoutInput(0,0,0.8)        # Move the end-effector to the position X, Y, Z
+                        #time.sleep(10)                                          # Delay 5 seconds for waiting the previous movement 
+                        #movement.setTargetOrientation_withoutInput(0,90,-90)    # Configure the end-effector's orientation Alpha, Beta, Gamma
+                        # -----Example End-----
+                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py, Checking.py )
                         print("Working........")
 
 
