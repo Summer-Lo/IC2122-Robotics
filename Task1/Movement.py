@@ -122,6 +122,14 @@ class Move:
                 returnCode = vrep.simxSetJointTargetPosition(clientID, jointHandle[i], (angle[i])/RAD2DEG, vrep.simx_opmode_blocking)
                 print(returnCode)
 
+    def setObjectInfo(self,handle,posX,posY,posZ,alpha,beta,gamma):
+        clientID = self.clientID
+        RAD2DEG = self.RAD2DEG
+        pos = [float(posX),float(posY),float(posZ)]
+        ori = [math.radians(float(alpha)),math.radians(float(beta)),math.radians(float(gamma))]
+        _ = vrep.simxSetObjectPosition(clientID,int(handle),-1,pos,vrep.simx_opmode_blocking)
+        _ = vrep.simxSetObjectOrientation(clientID,int(handle),-1,ori,vrep.simx_opmode_blocking)
+        
 #testing
 if __name__ == '__main__':
     test = Move()

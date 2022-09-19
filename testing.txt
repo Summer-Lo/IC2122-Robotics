@@ -1,0 +1,2 @@
+lxterminal --tab=1--working-directory="/home/vtl/Desktop/V-REP_PRO_EDU_V3_6_2_Ubuntu18_04" --command="./vrep.sh"
+lxterminal --working-directory="/home/vtl/IC2122-Robotics-Teacher/Task1" --command="python3 Task1.py"

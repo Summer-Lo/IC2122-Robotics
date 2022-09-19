@@ -1,1 +1,1 @@
-"C:\Program Files\V-REP3\V-REP_PRO_EDU\vrep.exe" "D:\01-Home\IoT\IC2122-Robotics\Task2\IC2122_Task2.ttt"
+"C:\Program Files\V-REP3\V-REP_PRO_EDU\vrep.exe" "D:\01-Home\IoT\IC2122-Robotics-Teacher\Task2\IC2122_Task2.ttt"
