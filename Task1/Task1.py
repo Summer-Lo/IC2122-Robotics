@@ -221,7 +221,7 @@ def main():
     returnPose_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((90, 375), (160, 45)),text='Home Position (L)',manager=manager)
     openRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((275, 375), (150, 45)),text='Open RG2 (Y)',manager=manager)
     closeRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((450, 375), (150, 45)),text='Close RG2 (T)',manager=manager)
-    setTarget_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((60, 425), (520, 45)),text='Joint Angle Configuration (input joint angle at administrator)',manager=manager)
+    setTarget_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((60, 425), (520, 45)),text='Joint Angle Configuration (input joint angle at "user input")',manager=manager)
     
     clock = pygame.time.Clock()
     # Configurating RG2

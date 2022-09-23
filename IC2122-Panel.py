@@ -13,7 +13,7 @@ import os
 # control robot by keyboard
 def main():
     resolutionX = 200
-    resolutionY = 700
+    resolutionY = 800
     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (68,28)
     pygame.init()
     screen = pygame.display.set_mode((resolutionX, resolutionY))
@@ -25,22 +25,24 @@ def main():
     green = (0, 255, 0)
     blue = (0, 0, 128)
     black = (0, 0, 0)
-    manager = pygame_gui.UIManager((200, 700))
+    manager = pygame_gui.UIManager((200, 800))
     
     # Button for Task selection
-    task1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 25), (100, 45)),text='Task 1',manager=manager)
-    task1c_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 75), (100, 45)),text='Task 1C',manager=manager)
+    labSim_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 25), (100, 45)),text='LabSim',manager=manager)
 
-    task2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 175), (100, 45)),text='Task 2',manager=manager)
-    task2c_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 225), (100, 45)),text='Task 2C',manager=manager)
+    task1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 125), (100, 45)),text='Task 1',manager=manager)
+    task1c_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 175), (100, 45)),text='Task 1C',manager=manager)
 
-    task3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 325), (100, 45)),text='Task 3',manager=manager)
+    task2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 275), (100, 45)),text='Task 2',manager=manager)
+    task2c_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 325), (100, 45)),text='Task 2C',manager=manager)
 
-    task4a_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 425), (100, 45)),text='Task 4A',manager=manager)
-    task4b_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 475), (100, 45)),text='Task 4B',manager=manager)
-    task4c_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 525), (100, 45)),text='Task 4C',manager=manager)
+    task3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 425), (100, 45)),text='Task 3',manager=manager)
 
-    ursim_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 625), (100, 45)),text='URSim',manager=manager)
+    task4a_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 525), (100, 45)),text='Task 4A',manager=manager)
+    task4b_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 575), (100, 45)),text='Task 4B',manager=manager)
+    task4c_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 625), (100, 45)),text='Task 4C',manager=manager)
+
+    ursim_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 725), (100, 45)),text='URSim',manager=manager)
     
     clock = pygame.time.Clock()
     # Configurating RG2
@@ -61,43 +63,47 @@ def main():
 
             # Task Button Control
             if event.type == pygame.USEREVENT:
-            # Task 1
+            # LabSim
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == labSim_button:
+                        subprocess.call(['gnome-terminal', '--title=Task1', '-x', '/home/topic2/IC2122-Robotics/LabSim.bash'])
+
+            # Task 1
                     if event.ui_element == task1_button:
                         subprocess.call(['gnome-terminal', '--title=Task1', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task1.bash'])
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task1c_button:
                         subprocess.call(['gnome-terminal', '--title=Task1c', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task1c.bash'])
 
             # Task 2
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task2_button:
                         subprocess.call(['gnome-terminal', '--title=Task2', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task2.bash'])
 
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task2c_button:
                         subprocess.call(['gnome-terminal', '--title=Task2c', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task2c.bash'])
 
             # Task 3
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task3_button:
                         subprocess.call(['gnome-terminal', '--title=Task3', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task3.bash'])
 
             # Task 4
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task4a_button:
                         subprocess.call(['gnome-terminal', '--title=Task4A', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task4a.bash'])  
 
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task4b_button:
                         subprocess.call(['gnome-terminal', '--title=Task4B', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task4b.bash'])
 
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == task4c_button:
                         subprocess.call(['gnome-terminal', '--title=Task4C', '-x', '/home/topic2/Desktop/IC2122-Robotics/Task4c.bash'])           
 
             # URSim v5.12 in ubuntu
-                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+
                     if event.ui_element == ursim_button:
                         subprocess.call(['gnome-terminal', '--title=URSim', '-x', '/home/topic2/Desktop/IC2122-Robotics/URSim.bash'])
 
