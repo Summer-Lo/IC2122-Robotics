@@ -26,12 +26,15 @@ import Checking
 import client_config as hc
 import vrep
 import os
+<<<<<<< HEAD
 import threading
+=======
+>>>>>>> 3a5823afe8062df3d7f830df862802fd3ff1c098
 
 class UR3_RG2:
     # variates
     resolutionX = 740               # Camera resolution: 640*480
-    resolutionY = 675
+    resolutionY = 625
     joint_angle = [0,0,0,0,0,0]     # each angle of joint
     RAD2DEG = 180 / math.pi         # transform radian to degrees
     posOnPath=0
@@ -273,12 +276,20 @@ def main():
     setPosition0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 775), (150, 45)),text='Set Position',manager=manager) 
     setOrientation0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 775), (150, 45)),text='Set Orientation',manager=manager)
     '''
+<<<<<<< HEAD
     
+=======
+    '''
+>>>>>>> 3a5823afe8062df3d7f830df862802fd3ff1c098
     # Calucation Pose
     pose1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((100, 625), (150, 45)),text='Pose 1',manager=manager)
     pose2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 625), (150, 45)),text='Pose 2',manager=manager)
     pose3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 625), (150, 45)),text='Pose 3',manager=manager)
+<<<<<<< HEAD
     
+=======
+    '''
+>>>>>>> 3a5823afe8062df3d7f830df862802fd3ff1c098
     clock = pygame.time.Clock()
     is_running = True
 
@@ -550,11 +561,15 @@ def main():
                         movement.setTarget0_withoutInput(0.3952,-0.01264,1.1039,171.18,-88.157,79.66)
                         time.sleep(2)
                 '''
+<<<<<<< HEAD
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == pose3_button:
                         pose3=threading.Thread(target=robot.pose3)
                         pose3.start()
 
+=======
+                     
+>>>>>>> 3a5823afe8062df3d7f830df862802fd3ff1c098
 
             manager.process_events(event)
             if event.type == pygame.KEYDOWN:

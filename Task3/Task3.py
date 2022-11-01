@@ -26,8 +26,11 @@ import Checking
 import client_config as hc
 import vrep
 import os
+<<<<<<< HEAD
 import threading
 
+=======
+>>>>>>> 3a5823afe8062df3d7f830df862802fd3ff1c098
 
 class UR3_RG2:
     # variates
@@ -549,9 +552,20 @@ def main():
                     if event.ui_element == complete_button:
                         # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
                         print("Working........")
+<<<<<<< HEAD
                         taskAuto = threading.Thread(target=robot.task3c)
                         taskAuto.start()
 
+=======
+                        movement.setTargetPosition_withoutInput(-0.2,0,1.1)
+                        checking.checking(0.07,0.6)
+                        movement.setTargetPosition_withoutInput(-0.15,0,1.1)
+                        checking.checking(0.07,0.08)
+                        # ----------Write your code here <START>----------
+
+
+                        # ----------Write your code here <END>----------
+>>>>>>> 3a5823afe8062df3d7f830df862802fd3ff1c098
                         
             manager.process_events(event)
             if event.type == pygame.KEYDOWN:
