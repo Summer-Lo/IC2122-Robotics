@@ -25,11 +25,14 @@ import Movement
 import Checking
 import client_config as hc
 import vrep
+import os
+import threading
+
 
 class UR3_RG2:
     # variates
     resolutionX = 640               # Camera resolution: 640*480
-    resolutionY = 750
+    resolutionY = 900
     joint_angle = [0,0,0,0,0,0]     # each angle of joint
     RAD2DEG = 180 / math.pi         # transform radian to degrees
     posOnPath=0
@@ -62,6 +65,20 @@ class UR3_RG2:
         self.pathHandle = hc.pathHandle
         self.visionSensorHandle = hc.visionSensorHandle
         self.camHandle = hc.camHandle
+
+    def task3c(self):
+        movement = Movement.Move()
+        information = Information.data()
+        checking = Checking.Check()
+        print("Process threading now!")
+        movement.setTargetPosition_withoutInput(-0.2,0,1.1)
+        checking.checking(0.07,0.6)
+        movement.setTargetPosition_withoutInput(-0.15,0,1.1)
+        checking.checking(0.07,0.08)
+        # ----------Write your code here <START>----------
+                        
+                        
+        # ----------Write your code here <END>----------
 
     # disconnect
     def __del__(self):
@@ -171,7 +188,7 @@ def main():
     
     #angle = float(eval(input("please input velocity: ")))
     angle = 1
-    
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (68,28)
     pygame.init()
     screen = pygame.display.set_mode((resolutionX, resolutionY))
     screen.fill((255,255,255))
@@ -184,52 +201,69 @@ def main():
     black = (0, 0, 0)
     manager = pygame_gui.UIManager((800, 930))
     # Introd
-    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 25), (185, 45)),text='Adjusting Joint Angle',manager=manager)
-    Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 25), (45, 45)),text='+5',manager=manager)
-    Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 25), (45, 45)),text='-5',manager=manager)
-    Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 25), (45, 45)),text='+1',manager=manager)
-    Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 25), (45, 45)),text='-1',manager=manager)
-    Status_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((450, 25), (100, 45)),text='Disabled',manager=manager)
+    button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 25), (195, 45)),text='Adjusting Joint Angle',manager=manager)
+    button
+    #Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 25), (45, 45)),text='+5',manager=manager)
+    #Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 25), (45, 45)),text='-5',manager=manager)
+    #Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 25), (45, 45)),text='+1',manager=manager)
+    #Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 25), (45, 45)),text='-1',manager=manager)
+    Status_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((275, 25), (150, 45)),text='Disabled',manager=manager)    
+    reset_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((475, 25), (100, 45)),text='Reset',manager=manager)
     # Joint 1 button
     joint1Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 75), (45, 45)),text='>>',manager=manager)
     joint1Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 75), (45, 45)),text='<<',manager=manager)
-    joint1Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 75), (45, 45)),text='> (Q)',manager=manager)
-    joint1Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 75), (45, 45)),text='(W) <',manager=manager)
+    joint1Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 75), (45, 45)),text='>',manager=manager)
+    joint1Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 75), (45, 45)),text='<',manager=manager)
     # Joint 2 button
     joint2Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 125), (45, 45)),text='>>',manager=manager)
     joint2Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 125), (45, 45)),text='<<',manager=manager)
-    joint2Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 125), (45, 45)),text='> (A)',manager=manager)
-    joint2Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 125), (45, 45)),text='(S) <',manager=manager)
+    joint2Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 125), (45, 45)),text='>',manager=manager)
+    joint2Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 125), (45, 45)),text='<',manager=manager)
     # Joint 3 button
     joint3Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 175), (45, 45)),text='>>',manager=manager)
     joint3Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 175), (45, 45)),text='<<',manager=manager)
-    joint3Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 175), (45, 45)),text='> (Z)',manager=manager)
-    joint3Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 175), (45, 45)),text='(X) <',manager=manager)
+    joint3Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 175), (45, 45)),text='>',manager=manager)
+    joint3Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 175), (45, 45)),text='<',manager=manager)
     # Joint 4 button
     joint4Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 225), (45, 45)),text='>>',manager=manager)
     joint4Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 225), (45, 45)),text='<<',manager=manager)
-    joint4Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 225), (45, 45)),text='> (E)',manager=manager)
-    joint4Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 225), (45, 45)),text='(R) <',manager=manager)
+    joint4Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 225), (45, 45)),text='>',manager=manager)
+    joint4Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 225), (45, 45)),text='<',manager=manager)
     # Joint 5 button
     joint5Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 275), (45, 45)),text='>>',manager=manager)
     joint5Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 275), (45, 45)),text='<<',manager=manager)
-    joint5Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (45, 45)),text='> (D)',manager=manager)
-    joint5Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 275), (45, 45)),text='(F) <',manager=manager)
+    joint5Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 275), (45, 45)),text='>',manager=manager)
+    joint5Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 275), (45, 45)),text='<',manager=manager)
     # Joint 6 Button
     joint6Add5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((400, 325), (45, 45)),text='>>',manager=manager)
     joint6Sub5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 325), (45, 45)),text='<<',manager=manager)
-    joint6Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 325), (45, 45)),text='> (C)',manager=manager)
-    joint6Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 325), (45, 45)),text='(V) <',manager=manager)
+    joint6Add_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((350, 325), (45, 45)),text='>',manager=manager)
+    joint6Sub_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 325), (45, 45)),text='<',manager=manager)
     # Pose
-    returnPose_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((75, 375), (150, 45)),text='Home Position (L)',manager=manager)
+    returnPose_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((65, 375), (160, 45)),text='Home Position (L)',manager=manager)
     openRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 375), (150, 45)),text='Open RG2 (Y)',manager=manager)
     closeRG2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((425, 375), (150, 45)),text='Close RG2 (T)',manager=manager) 
     # Set Position and Orientaiton
     setTarget_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((75, 575), (150, 45)),text='Set Target (I)',manager=manager) 
-    setPosition_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 575), (150, 45)),text='Set Position (P)',manager=manager) 
-    setOrientation_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((425, 575), (160, 45)),text='Set Orientation (O)',manager=manager)
+    setPosition_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((250, 575), (160, 45)),text='Set Position (P)',manager=manager) 
+    setOrientation_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((430, 575), (180, 45)),text='Set Orientation (O)',manager=manager)
+    '''
+    # Step for pick and place
+    step1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 675), (60, 45)),text='Step1',manager=manager)
+    step2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((140, 675), (60, 45)),text='Step2',manager=manager)
+    step3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((240, 675), (60, 45)),text='Step3',manager=manager)
+    step4_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((340, 675), (60, 45)),text='Step4',manager=manager)
+    step5_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((440, 675), (60, 45)),text='Step5',manager=manager)
+    step6_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((540, 675), (60, 45)),text='Step6',manager=manager)
+    step7_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((40, 725), (60, 45)),text='Step7',manager=manager)
+    step8_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((140, 725), (60, 45)),text='Step8',manager=manager)
+    step9_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((240, 725), (60, 45)),text='Step9',manager=manager)
+    step10_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((340, 725), (60, 45)),text='Step10',manager=manager)
+    step11_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((440, 725), (60, 45)),text='Step11',manager=manager)
+    step12_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((540, 725), (60, 45)),text='Step12',manager=manager) 
+    '''
     # One Step for completing whole task
-    complete_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((70, 675), (500, 45)),text='Clicking this button for completing whole task automatically',manager=manager)
+    complete_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((50, 675), (540, 45)),text='Clicking this button for completing whole task automatically',manager=manager)
 
     clock = pygame.time.Clock()
     is_running = True
@@ -249,6 +283,17 @@ def main():
     time.sleep(1)
 
     robot.openRG2()
+
+    clock = pygame.time.Clock()
+
+    base_font = pygame.font.Font(None, 32)
+    user_text = ''
+    input_rect = pygame.Rect(315,842,150,32)
+    color_active = pygame.Color('seagreen1')
+    color_passive = pygame.Color('white')
+    color = color_passive
+
+    active = False
     
     while True:
         # screen.fill((255,255,255))
@@ -327,6 +372,12 @@ def main():
             screen.blit(textInfo, textRectInfo)
         
         font = pygame.font.Font('freesansbold.ttf', 15)
+        '''
+        textStep = font.render('-------Modifying the program for completing this task by clicking buttons--------', True, blue, white)
+        textRectStep = textInfoTopic.get_rect()
+        textRectStep.center = (300, 650 )
+        screen.blit(textStep, textRectStep)
+        '''
 
         textStep = font.render('-------Modifying the program for completing this task by clicking one button--------', True, blue, white)
         textRectStep = textInfoTopic.get_rect()
@@ -343,6 +394,21 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
             # click button
+            if event.type == pygame.USEREVENT:
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == reset_button:
+                        print('Reset')
+                        movement.setObjectInfo(int(hc.obstacleHandle),float(hc.obsposX[0]),float(hc.obsposY[0]),float(hc.obsposZ[0]),float(hc.obsposA[0]),float(hc.obsposB[0]),float(hc.obsposG[0]))
+                        movement.setObjectInfo(int(hc.obstacle0Handle),float(hc.obsposX[1]),float(hc.obsposY[1]),float(hc.obsposZ[1]),float(hc.obsposA[1]),float(hc.obsposB[1]),float(hc.obsposG[1]))
+                        movement.setObjectInfo(int(hc.obstacle1Handle),float(hc.obsposX[2]),float(hc.obsposY[2]),float(hc.obsposZ[2]),float(hc.obsposA[2]),float(hc.obsposB[2]),float(hc.obsposG[2]))
+                        movement.setObjectInfo(int(hc.blueBlockHandle),float(hc.posX[0]),float(hc.posY[0]),float(hc.posZ[0]),float(hc.oriA[0]),float(hc.oriB[0]),float(hc.oriG[0]))
+                        movement.setObjectInfo(int(hc.greenBlockHandle),float(hc.posX[1]),float(hc.posY[1]),float(hc.posZ[1]),float(hc.oriA[1]),float(hc.oriB[1]),float(hc.oriG[1]))
+                        movement.setObjectInfo(int(hc.greenLakeBlockHandle),float(hc.posX[2]),float(hc.posY[2]),float(hc.posZ[2]),float(hc.oriA[2]),float(hc.oriB[2]),float(hc.oriG[2]))
+                        movement.setObjectInfo(int(hc.purpleBlockHandle),float(hc.posX[3]),float(hc.posY[3]),float(hc.posZ[3]),float(hc.oriA[3]),float(hc.oriB[3]),float(hc.oriG[3]))
+                        movement.setObjectInfo(int(hc.redBlockHandle),float(hc.posX[4]),float(hc.posY[4]),float(hc.posZ[4]),float(hc.oriA[4]),float(hc.oriB[4]),float(hc.oriG[4]))
+                        movement.setObjectInfo(int(hc.whiteBlockHandle),float(hc.posX[5]),float(hc.posY[5]),float(hc.posZ[5]),float(hc.oriA[5]),float(hc.oriB[5]),float(hc.oriG[5]))
+                        movement.setObjectInfo(int(hc.yellowBlockHandle),float(hc.posX[6]),float(hc.posY[6]),float(hc.posZ[6]),float(hc.oriA[6]),float(hc.oriB[6]),float(hc.oriG[6]))
+                        robot.returnPose()
             if event.type == pygame.USEREVENT:
                 # Joint 1
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
@@ -432,88 +498,199 @@ def main():
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == closeRG2_button:
                         robot.closeRG2()
+
+                # Target Position and Orientation
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == setTarget_button:
-                        movement.setTarget()
+                        if(1 in hc.functionStatus):
+                            pass
+                        else:
+                            active = True 
+                            hc.functionStatus[2] = 1    
+                            hc.question = hc.setTargetQuestion[0]   
+                            hc.inputHeading = "Input: "
+                            hc.setTargetStatus[0] = 1
+                            print("Set Target Button is clicked!")
+                            print("Current function status is: ", hc.functionStatus)
+                            print("Current Set Target Status is: ",hc.setTargetStatus)                        
+                        #movement.setTarget()
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == setPosition_button:
-                        movement.setTargetPosition()
+                        if(1 in hc.functionStatus):
+                            pass
+                        else:                        
+                            active = True 
+                            hc.functionStatus[0] = 1    
+                            hc.question = hc.setPosQuestion[0]   
+                            hc.inputHeading = "Input: "
+                            hc.setPosStatus[0] = 1
+                            print("Set Target Button is clicked!")
+                            print("Current function status is: ", hc.functionStatus)
+                            print("Current Set Position Status is: ",hc.setPosStatus)                         
+                        #movement.setTargetPosition()
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == setOrientation_button:
-                        movement.setTargetOrientation()
+                        if(1 in hc.functionStatus):
+                            pass
+                        else:      
+                            active = True 
+                            hc.functionStatus[1] = 1    
+                            hc.question = hc.setOriQuestion[0]  
+                            hc.inputHeading = "Input: "
+                            hc.setOriStatus[0] = 1
+                            print("Set Target Button is clicked!")
+                            print("Current function status is: ", hc.functionStatus)
+                            print("Current Set Orientation Status is: ",hc.setOriStatus)                         
+                        #movement.setTargetOrientation()
 
-                # Please input the necessary command for completing this task by clicking one button
-                # You can review the comments for seeking the useful functions which are located at other files 
-                # (Movement.py, Information.py, Checking.py)
+
+
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == complete_button:
-                        # -----Example start-----
-                        #movement.setTargetPosition_withoutInput(0,0,0.8)        # Move the end-effector to the position X, Y, Z
-                        #time.sleep(10)                                          # Delay 5 seconds for waiting the previous movement 
-                        #movement.setTargetOrientation_withoutInput(0,90,-90)    # Configure the end-effector's orientation Alpha, Beta, Gamma
-                        # -----Example End-----
-                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py, Checking.py )
+                        # Please input your command (functions can be found at Task3.py, Movement.py, Information.py )
                         print("Working........")
+                        taskAuto = threading.Thread(target=robot.task3c)
+                        taskAuto.start()
 
-
+                        
             manager.process_events(event)
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_p:
-                    robot.StopSimulation()
-                    sys.exit()
-                # joinit 0
-                elif event.key == pygame.K_q:
-                    movement.rotateCertainAnglePositive(0, angle)
-                elif event.key == pygame.K_w:
-                    movement.rotateCertainAngleNegative(0, angle)
-                # joinit 1
-                elif event.key == pygame.K_a:
-                    movement.rotateCertainAnglePositive(1, angle)
-                elif event.key == pygame.K_s:
-                    movement.rotateCertainAngleNegative(1, angle)
-                # joinit 2
-                elif event.key == pygame.K_z:
-                    movement.rotateCertainAnglePositive(2, angle)
-                elif event.key == pygame.K_x:
-                    movement.rotateCertainAngleNegative(2, angle)
-                # joinit 3
-                elif event.key == pygame.K_e:
-                    movement.rotateCertainAnglePositive(3, angle)
-                elif event.key == pygame.K_r:
-                    movement.rotateCertainAngleNegative(3, angle)
-                # joinit 4
-                elif event.key == pygame.K_d:
-                    movement.rotateCertainAnglePositive(4, angle)
-                elif event.key == pygame.K_f:
-                    movement.rotateCertainAngleNegative(4, angle)
-                # joinit 5
-                elif event.key == pygame.K_c:
-                    movement.rotateCertainAnglePositive(5, angle)
-                elif event.key == pygame.K_v:
-                    movement.rotateCertainAngleNegative(5, angle)
-                # close RG2
-                elif event.key == pygame.K_t:
-                    robot.closeRG2()
-                # # open RG2
-                elif event.key == pygame.K_y:
-                    robot.openRG2()
-                # reset angle
-                elif event.key == pygame.K_l:# return to the origin pose
-                    robot.returnPose()
-                # Set target position and orientation (IK)
-                elif event.key == pygame.K_i:
-                    movement.setTarget()
-                # Set target position to make the end-effector arrive the target
-                elif event.key == pygame.K_p:
-                    movement.setTargetPosition()
-                # Set target orientation to make the end-effector arrive the target  
-                elif event.key == pygame.K_o:
-                    movement.setTargetOrientation()
-                    
-                # reset angle
-                else:
-                    print("Invalid input, no corresponding function for this key!")
+                if event.key == pygame.K_BACKSPACE:
+                    # get text input from 0 to -1 i.e. end.
+                    user_text = user_text[:-1]
+    
+                # Unicode standard is used for string
+                # formation
+                if event.key == pygame.K_RETURN:
+                    # get and print the user inputed message.
+                    questionTopicInfo = base_font.render("                                                                                                                           ", True, black, white)
+                    questionTopic = pygame.Rect(25,800,700,32)
+                    screen.blit(questionTopicInfo, questionTopic)
+                    try:
+                        userInputCheck = float(user_text)
+                        if(user_text != ""):
+                            print("The user input: ", user_text[:])
+                            hc.userInput = user_text[:]
+                            print("The value passed to the function")
+                            for i in range(len(hc.functionStatus)):
+                                if(hc.functionStatus[i] == 1):                                          # hc.functionStatus[] = ["SetPos","SetOri","SetTarget"]
+                                    print("Working with function ", int(i))
 
+                                    if(int(i) == 0):							# Checking whether function1 (setTarget) is using
+                                        #print(int(i) == 0)
+                                        print("1 in hc.setPosStatus? ",1 in hc.setPosStatus)
+                                        if(1 in hc.setPosStatus):
+                                            j = int(hc.setPosStatus.index(1))
+                                            print("Current J used is: ", int(j))
+                                            hc.setPosValue[j] = float(user_text)
+                                            hc.setPosStatus[j] = 0
+                                            user_text = ""
+                                            print("Current Set Position Status is: ",hc.setPosStatus)
+                                            if (j <=1):
+                                                hc.question = "                                                                                                                          "
+                                                print(" j <= 1")
+                                                hc.setPosStatus[int(j)+1] = 1
+                                                hc.question = hc.setPosQuestion[int(j)+1]
+                                            if (j == 2):
+                                                hc.question = ""
+                                                movement.setTargetPosition()
+                                                hc.functionStatus[i] = 0
+                                                active = False
+                                                print("Status: ",hc.functionStatus)
+                                                #hc.question = "-------------------------------------------------------------------------------------"
+                                                hc.question = "                                                                                                          "
+                                                hc.inputHeading = "                         "
+
+                                    if(int(i) == 1):							# Checking whether function1 (setTarget) is using
+                                        #print(int(i) == 0)
+                                        print("1 in hc.setOriStatus? ",1 in hc.setOriStatus)
+                                        if(1 in hc.setOriStatus):
+                                            j = int(hc.setOriStatus.index(1))
+                                            print("Current J used is: ", int(j))
+                                            hc.setOriValue[j] = float(user_text)
+                                            hc.setOriStatus[j] = 0
+                                            user_text = ""
+                                            print("Current Set Orientation Status is: ",hc.setTargetStatus)
+                                            if (j <=1):
+                                                hc.question = "                                                                                                                          "
+                                                print(" j <= 1")
+                                                hc.setOriStatus[int(j)+1] = 1
+                                                hc.question = hc.setOriQuestion[int(j)+1]
+                                            if (j == 2):
+                                                hc.question = ""
+                                                movement.setTargetOrientation()
+                                                hc.functionStatus[i] = 0
+                                                active = False
+                                                print("Status: ",hc.functionStatus)
+                                                #hc.question = "-------------------------------------------------------------------------------------"
+                                                hc.question = "                                                                                                          "
+                                                hc.inputHeading = "                         "
+
+                                    elif(int(i) == 2):							# Checking whether function1 (setTarget) is using
+                                        #print(int(i) == 0)
+                                        print("1 in hc.setTargetStatus? ",1 in hc.setTargetStatus)
+                                        if(1 in hc.setTargetStatus):
+                                            j = int(hc.setTargetStatus.index(1))
+                                            print("Current J used is: ", int(j))
+                                            hc.setTargetValue[j] = float(user_text)
+                                            hc.setTargetStatus[j] = 0
+                                            user_text = ""
+                                            print("Current Set Target Status is: ",hc.setTargetStatus)
+                                            if (j <=4):
+                                                hc.question = "                                                                                                                          "
+                                                print(" j <= 4")
+                                                hc.setTargetStatus[int(j)+1] = 1
+                                                hc.question = hc.setTargetQuestion[int(j)+1]
+                                            if (j == 5):
+                                                hc.question = ""
+                                                movement.setTarget()
+                                                hc.functionStatus[i] = 0
+                                                active = False
+                                                print("Status: ",hc.functionStatus)
+                                                #hc.question = "-------------------------------------------------------------------------------------"
+                                                hc.question = "                                                                                                          "
+                                                hc.inputHeading = "                         "
+                                    # Reset the user input after function executed
+                                    print(hc.functionStatus)
+                                    user_text = ""
+                                    hc.userInput = user_text
+
+                    except:
+                        user_text = "Error"
+                else:
+                    if(active == True):
+                        if(event.unicode != "\b" and event.unicode != "\r"):
+                            user_text += event.unicode
+
+        questionTopicInfo = base_font.render("------------------- User Input -------------------", True, blue, white)
+        questionTopic = pygame.Rect(115,750,700,32)
+        screen.blit(questionTopicInfo, questionTopic)
+
+        questionTopicInfo = base_font.render(hc.question, True, black, white)
+        questionTopic = pygame.Rect(25,800,700,32)
+        screen.blit(questionTopicInfo, questionTopic)
+
+        inputTopicInfo = base_font.render(hc.inputHeading, True, blue, white)
+        inputTopic = pygame.Rect(240,850,50,32)
+        screen.blit(inputTopicInfo, inputTopic)
+
+        if active:
+            color = color_active
+        else:
+            color = color_passive
+
+        pygame.draw.rect(screen, color, input_rect)
+  
+        text_surface = base_font.render(user_text, True, (0,0,0))
+        
+        # render at position stated in arguments
+        screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+        
+        # set width of textfield so that text cannot get
+        # outside of user's text input
+        input_rect.w = max(100, text_surface.get_width()+10)
+
+        clock.tick(60)
         manager.update(time_delta)
 
         manager.draw_ui(screen)

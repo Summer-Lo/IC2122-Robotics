@@ -33,6 +33,21 @@ joint6Name = "UR3_joint6"
 #pathName = self.pathName
 #visionSensorName = self.visionSensorName
 #camName = self.camName
+
+# block name
+blueBlock = 'CuboidBlue'
+greenBlock = 'CuboidGreen'
+greenLakeBlock = 'CuboidGreenLake'
+purpleBlock = 'CuboidPurple'
+redBlock = 'CuboidRed'
+whiteBlock = 'CuboidWhite'
+yellowBlock = 'CuboidYellow'
+posX = [0.35,0.275,0.35,-0.05,0.125,0.125,0.25]
+posY = [0.025,0.2,-0.125,0.35,-0.35,0.325,-0.225]
+posZ = [0.435,0.435,0.435,0.435,0.435,0.435,0.435]
+oriA = [0,0,0,0,0,0,0]
+oriB = [0,0,0,0,0,0,0]
+oriG = [0,0,0,0,0,0,0]
         
 print('Simulation started')
 
@@ -79,8 +94,41 @@ _, boxSensorHandle = vrep.simxGetObjectHandle(clientID,boxSensorName,vrep.simx_o
 #_, joint5Handle = vrep.simxGetObjectHandle(clientID,joint5Name,vrep.simx_opmode_oneshot_wait)
 _, joint6Handle = vrep.simxGetObjectHandle(clientID,joint6Name,vrep.simx_opmode_oneshot_wait)
 
+# Block handle
+_, blueBlockHandle = vrep.simxGetObjectHandle(clientID,blueBlock,vrep.simx_opmode_oneshot_wait)
+_, greenBlockHandle = vrep.simxGetObjectHandle(clientID,greenBlock,vrep.simx_opmode_oneshot_wait)
+_, greenLakeBlockHandle = vrep.simxGetObjectHandle(clientID,greenLakeBlock,vrep.simx_opmode_oneshot_wait)
+_, purpleBlockHandle = vrep.simxGetObjectHandle(clientID,purpleBlock,vrep.simx_opmode_oneshot_wait)
+_, redBlockHandle = vrep.simxGetObjectHandle(clientID,redBlock,vrep.simx_opmode_oneshot_wait)
+_, whiteBlockHandle = vrep.simxGetObjectHandle(clientID,whiteBlock,vrep.simx_opmode_oneshot_wait)
+_, yellowBlockHandle = vrep.simxGetObjectHandle(clientID,yellowBlock,vrep.simx_opmode_oneshot_wait)
+
+
 # read the angle of each joints
 jointConfig = np.zeros((jointNum, 1))
 for i in range(jointNum):
         _, jpos = vrep.simxGetJointPosition(clientID, jointHandle[i], vrep.simx_opmode_blocking)
         jointConfig[i] = jpos
+
+# question for asking user input
+userInput = ""
+question = ""
+inputHeading = ""
+
+# input Status = ["setPosition","setOrientation","setTarget"]
+functionStatus = [0,0,0]
+
+# setPosition Status = ["PosX","PosY","PosZ"]
+setPosStatus = [0,0,0]
+setPosValue = [0.00,0.00,0.00]
+setPosQuestion = ["Please input the value of position X in meter (m): ","Please input the value of position Y in meter (m): ","Please input the value of position Z in meter (m): "]
+
+# setOrientation Status = ["OriA","OriB","OriG"]
+setOriStatus = [0,0,0]
+setOriValue = [0.00,0.00,0.00]
+setOriQuestion = ["Please input the value of orientation Alpha in degree: ","Please input the value of orientation Beta in degree: ","Please input the value of orientation Gamma in degree: "]
+
+# setTarget Status = ["PosX","PosY","PosZ","OriA","OriB","OriG"]
+setTargetStatus = [0,0,0,0,0,0]
+setTargetValue = [0.00,0.00,0.00,0.00,0.00,0.00]
+setTargetQuestion = ["Please input the value of position X in meter (m): ","Please input the value of position Y in meter (m): ","Please input the value of position Z in meter (m): ","Please input the value of orientation Alpha in degree: ","Please input the value of orientation Beta in degree: ","Please input the value of orientation Gamma in degree: "]

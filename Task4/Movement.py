@@ -38,6 +38,21 @@ class Move:
         
         self.jointConfig = joint_angle
 
+    # joint_angle: return the origin angle of each joint ([0,0,0,0,0,0])
+    def rotateAllAngle0(self, joint_angle):
+        clientID = self.clientID
+        jointNum = self.jointNum
+        RAD2DEG = self.RAD2DEG
+        jointHandle0 = self.jointHandle0
+        
+        # pause the communication and store the necessary command to send together
+        vrep.simxPauseCommunication(clientID, True)# Pause
+        for i in range(jointNum):
+            vrep.simxSetJointTargetPosition(clientID, jointHandle0[i], joint_angle[i]/RAD2DEG, vrep.simx_opmode_oneshot)
+        vrep.simxPauseCommunication(clientID, False)# Resume
+        
+        self.jointConfig0 = joint_angle
+
     def rotateCertainAnglePositive(self, num, angle):
         clientID = self.clientID
         RAD2DEG = self.RAD2DEG

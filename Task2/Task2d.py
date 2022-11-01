@@ -24,6 +24,7 @@ import Information
 import Movement
 import client_config as hc
 import vrep
+import os
 
 class UR3_RG2:
     # variates
@@ -192,7 +193,7 @@ def main():
     
     #angle = float(eval(input("please input velocity: ")))
     angle = 1
-    
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (68,28)
     pygame.init()
     screen = pygame.display.set_mode((resolutionX, resolutionY))
     screen.fill((255,255,255))

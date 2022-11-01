@@ -25,6 +25,8 @@ import Movement
 import Checking
 import client_config as hc
 import vrep
+import os
+import threading
 
 class UR3_RG2:
     # variates
@@ -83,6 +85,18 @@ class UR3_RG2:
         self.jointConfig0 = hc.jointConfig0
         self.tipHandle0 = hc.tipHandle0
         self.targetHandle0 = hc.targetHandle0
+
+    def pose3(self):
+        movement = Movement.Move()        
+        movement.rotateAllAngle([-113.41,3.09,-119.13,25.49,91.39,68.27])
+        time.sleep(4)
+        movement.rotateAllAngle([-50,0,-50,25.49,91.39,68.27])
+        time.sleep(0.25)
+        movement.rotateAllAngle([0,0,0,0,0,0])
+        time.sleep(7)
+        movement.rotateAllAngle0([-19.58,4.641,-121.3,27.65,88.33,-107.9])
+        time.sleep(4)
+        movement.rotateAllAngle0([0,0,0,0,0,0])
 
     # disconnect
     def __del__(self):
@@ -227,7 +241,7 @@ def main():
     
     #angle = float(eval(input("please input velocity: ")))
     angle = 1
-    
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (68,28)
     pygame.init()
     screen = pygame.display.set_mode((resolutionX, resolutionY))
     screen.fill((255,255,255))
@@ -259,11 +273,12 @@ def main():
     setPosition0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 775), (150, 45)),text='Set Position',manager=manager) 
     setOrientation0_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 775), (150, 45)),text='Set Orientation',manager=manager)
     '''
+    
     # Calucation Pose
     pose1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((100, 625), (150, 45)),text='Pose 1',manager=manager)
     pose2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((300, 625), (150, 45)),text='Pose 2',manager=manager)
     pose3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((500, 625), (150, 45)),text='Pose 3',manager=manager)
-
+    
     clock = pygame.time.Clock()
     is_running = True
 
@@ -480,6 +495,7 @@ def main():
                     if event.ui_element == setOrientation0_button:
                         movement.setTargetOrientation0()
                 '''
+                '''
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == pose1_button:
                         movement.setJointAngle1(-90,0,0,0,0,0)
@@ -507,6 +523,8 @@ def main():
                         time.sleep(5)
                         movement.setTarget0_withoutInput(0.31129,0.59525,1.1039,91.822,0.28286,-1.5211)
                         time.sleep(2)
+                '''
+                '''
                 if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == pose3_button:
                         movement.setTarget_withoutInput(0.2,-0.2,0.6,0,90,180)
@@ -531,7 +549,12 @@ def main():
                         time.sleep(4)
                         movement.setTarget0_withoutInput(0.3952,-0.01264,1.1039,171.18,-88.157,79.66)
                         time.sleep(2)
-                     
+                '''
+                if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == pose3_button:
+                        pose3=threading.Thread(target=robot.pose3)
+                        pose3.start()
+
 
             manager.process_events(event)
             if event.type == pygame.KEYDOWN:

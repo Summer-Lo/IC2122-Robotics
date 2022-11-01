@@ -68,40 +68,52 @@ class Move:
         clientID = self.clientID
         RAD2DEG = self.RAD2DEG
         targetHandle = self.targetHandle
+        '''
         PosX = float(input("Input Position X: "))
         PosY = float(input("Input Position Y: "))
         PosZ = float(input("Input Position Z: "))
         Alpha = float(input("Input Orientation Alpha (in degree): "))/RAD2DEG
         Beta = float(input("Input Orientation Beta (in degree): "))/RAD2DEG
         Gamma = float(input("Input Orientation Gamma (in degree): "))/RAD2DEG
+        '''
+        PosX = float(hc.setTargetValue[0])
+        PosY = float(hc.setTargetValue[1])
+        PosZ = float(hc.setTargetValue[2])
+        Alpha = float(hc.setTargetValue[3])/RAD2DEG
+        Beta = float(hc.setTargetValue[4])/RAD2DEG
+        Gamma = float(hc.setTargetValue[5])/RAD2DEG
         position = [float(PosX),float(PosY),float(PosZ)]
         orientation = [float(Alpha),float(Beta),float(Gamma)]
-        vrep.simxSetObjectPosition(clientID, targetHandle, -1, position, vrep.simx_opmode_blocking)                                 # Set the target position
-        vrep.simxSetObjectOrientation(clientID, targetHandle, -1, orientation, vrep.simx_opmode_blocking)                           # Set the target orientation
+        vrep.simxSetObjectPosition(clientID, targetHandle, -1, position, vrep.simx_opmode_blocking)
+        vrep.simxSetObjectOrientation(clientID, targetHandle, -1, orientation, vrep.simx_opmode_blocking)
 
-    # Set the target position
-    # target position will affect the end-effector's position 
+
     def setTargetPosition(self):
         clientID = self.clientID
         RAD2DEG = self.RAD2DEG
         targetHandle = self.targetHandle
-        PosX = float(input("Input Position X: "))
-        PosY = float(input("Input Position Y: "))
-        PosZ = float(input("Input Position Z: "))
+        #PosX = float(input("Input Position X: "))
+        #PosY = float(input("Input Position Y: "))
+        #PosZ = float(input("Input Position Z: "))
+        PosX = float(hc.setPosValue[0])
+        PosY = float(hc.setPosValue[1])
+        PosZ = float(hc.setPosValue[2])
         position = [float(PosX),float(PosY),float(PosZ)]
-        vrep.simxSetObjectPosition(clientID, targetHandle, -1, position, vrep.simx_opmode_blocking)                                 # Set the target position
+        vrep.simxSetObjectPosition(clientID, targetHandle, -1, position, vrep.simx_opmode_blocking)
         
-    # Set the target orientation
-    # target orientation will affect the end-effector's orientation 
+
     def setTargetOrientation(self):
         clientID = self.clientID
         RAD2DEG = self.RAD2DEG
         targetHandle = self.targetHandle
-        Alpha = float(input("Input Orientation Alpha (in degree): "))/RAD2DEG
-        Beta = float(input("Input Orientation Beta (in degree): "))/RAD2DEG
-        Gamma = float(input("Input Orientation Gamma (in degree): "))/RAD2DEG
+        #Alpha = float(input("Input Orientation Alpha (in degree): "))/RAD2DEG
+        #Beta = float(input("Input Orientation Beta (in degree): "))/RAD2DEG
+        #Gamma = float(input("Input Orientation Gamma (in degree): "))/RAD2DEG
+        Alpha = float(hc.setOriValue[0])/RAD2DEG
+        Beta = float(hc.setOriValue[1])/RAD2DEG
+        Gamma = float(hc.setOriValue[2])/RAD2DEG
         orientation = [float(Alpha),float(Beta),float(Gamma)]
-        vrep.simxSetObjectOrientation(clientID, targetHandle, -1, orientation, vrep.simx_opmode_blocking)                           # Set the target orientation
+        vrep.simxSetObjectOrientation(clientID, targetHandle, -1, orientation, vrep.simx_opmode_blocking)
 
     # Set the target position and orientaion without user input at administrator
     # target position and orientation (degree) will affect the position and orientaion of end-effector
@@ -131,6 +143,15 @@ class Move:
         targetHandle = self.targetHandle
         orientation = [float(Alpha)/RAD2DEG,float(Beta)/RAD2DEG,float(Gamma)/RAD2DEG]
         vrep.simxSetObjectOrientation(clientID, targetHandle, -1, orientation, vrep.simx_opmode_blocking)                           # Set the target orientation
+
+    def setObjectInfo(self,handle,posX,posY,posZ,alpha,beta,gamma):
+        clientID = self.clientID
+        RAD2DEG = self.RAD2DEG
+        pos = [float(posX),float(posY),float(posZ)]
+        ori = [math.radians(float(alpha)),math.radians(float(beta)),math.radians(float(gamma))]
+        _ = vrep.simxSetObjectPosition(clientID,int(handle),-1,pos,vrep.simx_opmode_blocking)
+        _ = vrep.simxSetObjectOrientation(clientID,int(handle),-1,ori,vrep.simx_opmode_blocking)
+        
 
 '''
 #testing
